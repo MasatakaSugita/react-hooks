@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+# react-hooks
+react-hooksの検証用
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## useState
+***
+状態監視を行うhooks
+```
+const [count, setCount] = useState(0);
+```
 
-## Available Scripts
+## useEffect
+***
+発火タイミングを管理するhooks
+```
+useEffect(() => {
+    console.log('引数のcountが変更されたので発火します。StrictModeの時は2回発火します。これはreactの仕様で本番環境だど1回だけになる。');
+ }, [count]);
+ 
+ //第一引数にコールバック関数,第二引数の配列の要素が変更されたら発火する
+ //から配列の場合は初回のレンダリング時のみ発火する
+```
 
-In the project directory, you can run:
+## useContext
+***
+コンポーネント間でバケツリレーをしなくてもよくなるhooks
 
-### `npm start`
+## useRef
+***
+値を参照するhooks<br>
+Ref(reference)参照する<br>
+inputタグの中の値を取得する時などに使う。
+```
+const ref = useRef();
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+const handleRef = () => {
+    console.log(ref.current.value);
+};
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+return (
+    <>
+        <input type="text" ref={ref} />
+        <button onClick={handleRef}>UserRef</button>
+    </>
+);
+```
 
-### `npm test`
+useStateを使ってinputないの値の参照を行う場合は、
+```
+const [stateText, setStateText] = useState('');
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+ const stateInputChange = (event) => {
+    setStateText(event.target.value);
+ }; 
+ 
+return (
+    <input type="text" value={stateText} onChange={stateInputChange}/>
+    {stateText}
+);
+```
 
-### `npm run build`
+使い分けとしてはuseRefは値の参照が簡単だがレンダリングは発生しないため、<br>
+画面上の反映ができない。
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+ので、<br>
+・inputの値を画面上へ反映する必要がある場合はuseState,<br>
+・画面に値を表示する必要がないばいはuseRef<br>
+がよいか?
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## useReducer
+***
+reduxという仕組みをuseReducerを使えば簡単にできるよというもの
+使う機会はほぼないっぽいから放置
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## useMemo
+***
+パフォーマンスのチューニングの際に使うことのあるhooks
+値をブラウザのメモリに保存んするらしいが
+よくわからん
 
-### `npm run eject`
+## useCallBack
+***
+パフォーマンスのチューニングの際に使うことのあるhooks
+関数をブラウザのメモリに保存するらしいが
+これもよくわからんし
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## カスタムフック
+***
+自分で作るフックスただの関数という認識でいいのか?
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
